@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\MaterialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+// Rute untuk kelas
+Route::middleware('auth:sanctum')->group(callback: function () {
+    Route::post('/classes', [ClassController::class, 'store']);
+    Route::get('/classes', [ClassController::class, 'show']);
+    Route::put('/classes/{id}', [ClassController::class, 'update']);
+    Route::delete('/classes/{id}', [ClassController::class, 'destroy']);
+    Route::post('/classes/{code}/join', [ClassController::class, 'join']);
+    Route::post('/classes/{code}/leave', [ClassController::class, 'leave']);    
+});
+// Rute untuk materi
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/material/{class_id}', [MaterialController::class, 'store']);
+    Route::get('/material/{class_id}', [MaterialController::class, 'show']);
+    Route::put('/material/{id}', [MaterialController::class, 'update']);
+    Route::delete('/material/{id}', [MaterialController::class, 'destroy']);
+});

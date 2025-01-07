@@ -12,8 +12,10 @@ class Classes extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
+        'subject',
         'description',
-        'teacher_id'
+        'teacher_id',
+        'code',
     ];
 
     public function teacher()

@@ -17,7 +17,6 @@ class Material extends Model
         'title',
         'description',
         'file_path',
-        'uploaded_at',
         'scheduled_at',
         'status',
     ];
