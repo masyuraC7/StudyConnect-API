@@ -90,6 +90,12 @@ public function store(Request $request, $class_id)
         }
 
         if ($request->hasFile('attachment')) {
+            // Hapus attachment yang lama
+            if ($material->attachment_path) {
+                Storage::disk('public')->delete($material->attachment_path);
+
+            }
+
             $attachment = $request->file('attachment');
             $attachmentName = time() . '_' . $attachment->getClientOriginalName();
             $attachmentPath = $attachment->storeAs('attachments', $attachmentName, 'public');
@@ -120,7 +126,7 @@ public function store(Request $request, $class_id)
     
         // Hapus file yang terupload
         if ($materi->attachment_path) {
-            Storage::delete($materi->attachment_path);
+            Storage::disk('public')->delete($materi->attachment_path);
         }
     
         $materi->delete();

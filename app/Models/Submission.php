@@ -17,6 +17,7 @@ class Submission extends Model
         'submitted_at',
         'file_path',
         'grade',
+        'status',
         'feedback',
     ];
 

@@ -1,0 +1,127 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Announcement;
+use Illuminate\Http\Request;
+use Storage;
+use Validator;
+
+class AnnouncementController extends Controller
+{
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request, $class_id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'teacher') {
+            return response()->json(['message' => 'Hanya guru yang dapat membuat pengumuman'], 403);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $attachmentPath = null;
+        $attachment = $request->file('attachment');
+        if ($attachment) {
+            $attachmentName = time() . '_' . $attachment->getClientOriginalName();
+            $attachmentPath = $attachment->storeAs('attachments', $attachmentName, 'public');
+        }
+
+        $announcement = Announcement::create([
+            'content' => $request->content,
+            'class_id' => $class_id,
+            'teacher_id' => $user->id,
+            'attachment_path' => $attachmentPath,
+        ]);
+
+        return response()->json($announcement, 201);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($class_id)
+    {
+        $announcement = Announcement::where('class_id', $class_id)->get();
+        if (!$announcement) {
+            return response()->json(['message' => 'Pengumuman tidak ditemukan'], 404);
+        }
+        return response()->json($announcement);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'teacher') {
+            return response()->json(['message' => 'Hanya guru yang dapat mengedit pengumuman'], 403);
+        }
+
+        $announcement = Announcement::find($id);
+        if (!$announcement) {
+            return response()->json(['message' => 'Pengumuman tidak ditemukan'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if ($request->hasFile('attachment')) {
+            // Hapus attachment yang lama
+            if ($announcement->attachment_path) {
+                Storage::disk('public')->delete($announcement->attachment_path);
+
+            }
+
+            $attachment = $request->file('attachment');
+            $attachmentName = time() . '_' . $attachment->getClientOriginalName();
+            $attachmentPath = $attachment->storeAs('attachments', $attachmentName, 'public');
+            $announcement->attachment_path = $attachmentPath;
+
+        }
+
+        $announcement->content = $request->content;
+        $announcement->save();
+
+        return response()->json($announcement);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'teacher') {
+            return response()->json(['message' => 'Hanya guru yang dapat menghapus pengumuman'], 403);
+        }
+
+        $announcement = Announcement::find($id);
+        if (!$announcement) {
+            return response()->json(['message' => 'Pengumuman tidak ditemukan'], 404);
+        }
+
+        // Hapus file yang terupload
+        if ($announcement->attachment_path) {
+            Storage::disk('public')->delete($announcement->attachment_path);
+        }
+
+        $announcement->delete();
+        return response()->json(['message' => 'Pengumuman berhasil dihapus']);
+    }
+}

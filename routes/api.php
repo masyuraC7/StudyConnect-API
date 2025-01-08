@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\MaterialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/material/{class_id}', [MaterialController::class, 'show']);
     Route::put('/material/{id}', [MaterialController::class, 'update']);
     Route::delete('/material/{id}', [MaterialController::class, 'destroy']);
+});
+// Rute untuk pengumuman
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/announcement/{class_id}', [AnnouncementController::class, 'store']);
+    Route::get('/announcement/{class_id}', [AnnouncementController::class, 'show']);
+    Route::put('/announcement/{id}', [AnnouncementController::class, 'update']);
+    Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy']);
 });

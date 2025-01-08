@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('assignment', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
-            $table->date('due_date');
-            $table->string('attachment_path');
+            $table->date('due_date')->nullable();
+            $table->string('attachment_path')->nullable();
             $table->decimal('max_score', 4, 1);
             $table->timestamp('scheduled_at')->nullable();
-            $table->enum('status', ['draft', 'scheduled', 'published']);
+            $table->enum('status', ['scheduled', 'published']);
             $table->timestamps();
         });
     }

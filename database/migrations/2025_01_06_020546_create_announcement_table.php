@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
-            $table->string('title', 100);
             $table->text('content');
-            $table->string('attachment_path');
+            $table->string('attachment_path')->nullable();
             $table->timestamp('scheduled_at')->nullable();
-            $table->enum('status', ['draft', 'scheduled', 'published']);
+            $table->enum('status', ['scheduled', 'published']);
             $table->timestamps();
         });
     }

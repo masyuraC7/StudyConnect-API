@@ -14,7 +14,6 @@ class Announcement extends Model
     protected $fillable = [
         'class_id',
         'teacher_id',
-        'title',
         'content',
         'attachment_path',
         'scheduled_at',
