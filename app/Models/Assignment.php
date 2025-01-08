@@ -18,6 +18,8 @@ class Assignment extends Model
         'due_date',
         'attachment_path',
         'max_score',
+        'type',
+        'options',
         'scheduled_at',
         'status',
     ];

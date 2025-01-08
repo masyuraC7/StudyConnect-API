@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -25,26 +27,36 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Rute untuk kelas
 Route::middleware('auth:sanctum')->group(callback: function () {
+
+    // Rute untuk kelas
     Route::post('/classes', [ClassController::class, 'store']);
     Route::get('/classes', [ClassController::class, 'show']);
     Route::put('/classes/{id}', [ClassController::class, 'update']);
     Route::delete('/classes/{id}', [ClassController::class, 'destroy']);
     Route::post('/classes/{code}/join', [ClassController::class, 'join']);
-    Route::post('/classes/{code}/leave', [ClassController::class, 'leave']);    
-});
-// Rute untuk materi
-Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/classes/{code}/leave', [ClassController::class, 'leave']);
+
+    // Rute untuk materi
     Route::post('/material/{class_id}', [MaterialController::class, 'store']);
     Route::get('/material/{class_id}', [MaterialController::class, 'show']);
     Route::put('/material/{id}', [MaterialController::class, 'update']);
     Route::delete('/material/{id}', [MaterialController::class, 'destroy']);
-});
-// Rute untuk pengumuman
-Route::middleware('auth:sanctum')->group(function () {
+
+    // Rute untuk pengumuman
     Route::post('/announcement/{class_id}', [AnnouncementController::class, 'store']);
     Route::get('/announcement/{class_id}', [AnnouncementController::class, 'show']);
     Route::put('/announcement/{id}', [AnnouncementController::class, 'update']);
     Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy']);
+
+    // Rute untuk tugas
+    Route::post('/assignment/{class_id}', [AssignmentController::class, 'store']);
+    Route::get('/assignment/{class_id}', [AssignmentController::class, 'show']);
+    Route::put('/assignment/{id}', [AssignmentController::class, 'update']);
+    Route::delete('/assignment/{id}', [AssignmentController::class, 'destroy']);
+
+    // Rute untuk pengumpulan
+    Route::post('/assignment/{assignment_id}/submission', [SubmissionController::class, 'store']);
+    Route::get('/assignment/{assignment_id}/submission', [SubmissionController::class, 'show']);
+    Route::put('/submission/{submission_id}', [SubmissionController::class, 'score']);
 });

@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('materials:publish-scheduled')->everyMinute();
+        $schedule->command('app:publish-scheduled-data')->everyMinute();
     }
 
     /**

@@ -2,29 +2,27 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Material;
+use Illuminate\Console\Command;
 
-class PublishScheduledMaterials extends Command
+class PublishScheduledData extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'materials:publish-scheduled';
+    protected $signature = 'app:publish-scheduled-data';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish scheduled materials';
+    protected $description = 'Publish scheduled data';
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -35,6 +33,13 @@ class PublishScheduledMaterials extends Command
             $material->save();
         }
 
-        $this->info('Scheduled materials published successfully!');
+        $assignments = \App\Models\Assignment::where('scheduled_at', '<=', now())->where('status', 'scheduled')->get();
+
+        foreach ($assignments as $assignment) {
+            $assignment->status = 'published';
+            $assignment->save();
+        }
+
+        $this->info('Scheduled data published successfully!');
     }
 }

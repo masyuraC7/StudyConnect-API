@@ -17,7 +17,9 @@ class DataClass extends Seeder
             [
                 'name' => 'Class 1',
                 'subject' => 'Math',
+                'teacher_id' => 1,
                 'description' => 'Class 1 Description',
+                'code' => 'abcdef',
                 'created_at' => now(),
                 'updated_at' => now()
             ]

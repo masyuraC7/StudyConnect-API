@@ -15,10 +15,10 @@ class Submission extends Model
         'assignment_id',
         'student_id',
         'submitted_at',
-        'file_path',
+        'attachment_path',
         'grade',
         'status',
-        'feedback',
+        'answer',
     ];
 
     public function assignment()
