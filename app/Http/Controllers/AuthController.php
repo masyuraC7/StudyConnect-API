@@ -29,7 +29,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['user' => $user], 201);
+        return response()->json($user, 201);
     }
 
     public function login(Request $request)
@@ -58,6 +58,6 @@ class AuthController extends Controller
         if(!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
-        return response()->json(['user' => $user], 200);
+        return response()->json($user, 200);
     }
 }
