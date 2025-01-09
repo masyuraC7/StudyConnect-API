@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     // Rute untuk kelas
     Route::post('/classes', [ClassController::class, 'store']);
     Route::get('/classes', [ClassController::class, 'show']);
+    Route::get('/classes/{id}', [ClassController::class, 'getById']);
     Route::put('/classes/{id}', [ClassController::class, 'update']);
     Route::delete('/classes/{id}', [ClassController::class, 'destroy']);
     Route::post('/classes/{code}/join', [ClassController::class, 'join']);
