@@ -40,7 +40,7 @@ class AuthController extends Controller
             $user = auth()->user();
             $token = 'Bearer ' . $user->createToken('StudyConnect')->plainTextToken;
 
-            return response()->json(['token' => $token], 200);
+            return response()->json(['token' => $token, 'user_id' => $user->id, 'role' => $user->role], 200);
         }
 
         return response()->json(['message' => 'Invalid credentials'], 401);
