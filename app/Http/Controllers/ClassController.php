@@ -95,16 +95,16 @@ class ClassController extends Controller
         if (!$class) {
             return response()->json(['message' => 'Kelas tidak ditemukan'], 404);
         }
-    
+
         $user = auth()->user();
         if ($user->role !== 'student') {
             return response()->json(['message' => 'Hanya siswa yang dapat bergabung dengan kelas'], 403);
         }
-    
+
         if ($user->classes()->where('class_id', $class->id)->exists()) {
             return response()->json(['message' => 'Anda sudah bergabung dengan kelas ini'], 400);
         }
-    
+
         $user->classes()->attach($class->id);
         return response()->json(['message' => 'Anda telah bergabung dengan kelas ini']);
     }
@@ -119,17 +119,36 @@ class ClassController extends Controller
         if (!$class) {
             return response()->json(['message' => 'Kelas tidak ditemukan'], 404);
         }
-    
+
         $user = auth()->user();
         if ($user->role !== 'student') {
             return response()->json(['message' => 'Hanya siswa yang dapat keluar dari kelas'], 403);
         }
-    
+
         if (!$user->classes()->where('class_id', $class->id)->exists()) {
             return response()->json(['message' => 'Anda tidak bergabung dengan kelas ini'], 400);
         }
-    
+
         $user->classes()->detach($class->id);
         return response()->json(['message' => 'Anda telah keluar dari kelas ini']);
+    }
+
+    /**
+     * Get all students in a class.
+     */
+    public function getStudents($id)
+    {
+        $class = Classes::findOrFail($id);
+
+        // Pastikan hanya guru dari kelas ini yang bisa mengakses daftar siswa
+        $user = auth()->user();
+        if ($user->role !== 'teacher' || $class->teacher_id !== $user->id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk melihat siswa di kelas ini'], 403);
+        }
+
+        // Dapatkan semua siswa yang bergabung
+        $students = $class->students()->get();
+
+        return response()->json($students);
     }
 }

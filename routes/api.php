@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     Route::delete('/classes/{id}', [ClassController::class, 'destroy']);
     Route::post('/classes/{code}/join', [ClassController::class, 'join']);
     Route::post('/classes/{code}/leave', [ClassController::class, 'leave']);
+    Route::get('/classes/{id}/students', [ClassController::class, 'getStudents']);
 
     // Rute untuk materi
     Route::post('/material/{class_id}', [MaterialController::class, 'store']);
