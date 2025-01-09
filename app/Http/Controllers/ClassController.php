@@ -151,4 +151,14 @@ class ClassController extends Controller
 
         return response()->json($students);
     }
+    
+    /**
+     * Get a class by id.
+     */
+    public function getById($id)
+    {
+        $class = Classes::findOrFail($id);
+
+        return response()->json($class);
+    }
 }
