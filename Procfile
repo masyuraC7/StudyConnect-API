@@ -1,1 +1,0 @@
-worker: node scheduler.js
