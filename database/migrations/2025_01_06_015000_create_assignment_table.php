@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->enum('type', ['essay', 'multiple_choice', 'file_upload']);
             $table->json('options')->nullable();
             $table->dateTime('scheduled_at')->nullable();
-            $table->enum('status', ['scheduled', 'published'])->nullable();
+            $table->enum('status', ['scheduled', 'published'])->default('published');
             $table->timestamps();
         });
     }

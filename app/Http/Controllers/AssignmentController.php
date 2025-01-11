@@ -70,7 +70,7 @@ class AssignmentController extends Controller
             'status' => $request->scheduled_at ? 'scheduled' : 'published',
             'type' => $request->type,
         ]);
-        
+
         if ($request->type === 'multiple_choice') {
             // Ubah string options menjadi array
             $optionsArray = array_map('trim', explode(',', $request->options));
@@ -85,6 +85,7 @@ class AssignmentController extends Controller
 
         // Atur jadwal jika ada
         if ($request->scheduled_at) {
+            $assignment->status = 'scheduled';
             $assignment->scheduled_at = Carbon::createFromFormat('Y-m-d H:i', $request->scheduled_at);
             $assignment->save();
         }
@@ -97,7 +98,14 @@ class AssignmentController extends Controller
      */
     public function show($class_id)
     {
-        $assignments = Assignment::where('class_id', $class_id)->get();
+        $user = auth()->user();
+        if ($user->role === 'student') {
+            $assignments = Assignment::where('class_id', $class_id)
+                ->where('status', 'published')
+                ->get();
+        } else {
+            $assignments = Assignment::where('class_id', $class_id)->get();
+        }
         return response()->json($assignments);
     }
 

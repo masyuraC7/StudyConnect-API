@@ -151,7 +151,7 @@ class ClassController extends Controller
 
         return response()->json($students);
     }
-    
+
     /**
      * Get a class by id.
      */
@@ -161,4 +161,64 @@ class ClassController extends Controller
 
         return response()->json($class);
     }
+
+    /**
+     * Get archived classes for the authenticated teacher.
+     */
+    public function getArchivedClasses()
+    {
+        $user = auth()->user();
+        if ($user->role !== 'teacher') {
+            return response()->json(['message' => 'Hanya guru yang dapat melihat kelas yang diarsipkan'], 403);
+        }
+
+        $archivedClasses = Classes::where('teacher_id', $user->id)
+            ->where('status', 'archived')
+            ->get();
+
+        return response()->json($archivedClasses);
+    }
+
+    /**
+     * Archive the specified class.
+     */
+    public function archive($id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'teacher') {
+            return response()->json(['message' => 'Hanya guru yang dapat mengarsipkan kelas'], 403);
+        }
+
+        $class = Classes::findOrFail($id);
+        if ($class->teacher_id !== $user->id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk mengarsipkan kelas ini'], 403);
+        }
+
+        $class->status = 'archived';
+        $class->save();
+
+        return response()->json(['message' => 'Kelas telah diarsipkan']);
+    }
+
+    /**
+     * Restore the specified archived class.
+     */
+    public function restore($id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'teacher') {
+            return response()->json(['message' => 'Hanya guru yang dapat memulihkan kelas'], 403);
+        }
+
+        $class = Classes::findOrFail($id);
+        if ($class->teacher_id !== $user->id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk memulihkan kelas ini'], 403);
+        }
+
+        $class->status = 'active';
+        $class->save();
+
+        return response()->json(['message' => 'Kelas telah dipulihkan']);
+    }
+
 }

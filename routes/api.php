@@ -36,6 +36,9 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     Route::post('/classes/{code}/join', [ClassController::class, 'join']);
     Route::post('/classes/{code}/leave', [ClassController::class, 'leave']);
     Route::get('/classes/{id}/students', [ClassController::class, 'getStudents']);
+    Route::post('/archive/{id}', [ClassController::class, 'archive']);
+    Route::post('/restore/{id}', [ClassController::class, 'restore']);
+    Route::get('/archived-classes', [ClassController::class, 'getArchivedClasses']);
 
     // Rute untuk materi
     Route::post('/material/{class_id}', [MaterialController::class, 'store']);
