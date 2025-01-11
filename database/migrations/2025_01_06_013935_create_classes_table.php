@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('subject', 100)->nullable();
             $table->text('description')->nullable();
             $table->foreignId('teacher_id')->constrained('users');
-            $table->string('code', 8)->unique();            
+            $table->string('code', 8)->unique();
+            $table->enum('status', ['active', 'archived'])->default('active');
             $table->timestamps();
         });
     }
