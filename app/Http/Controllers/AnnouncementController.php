@@ -22,6 +22,7 @@ class AnnouncementController extends Controller
         $validator = Validator::make($request->all(), [
             'content' => 'required|string',
             'attachment' => 'nullable|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
+            'scheduled_at' => 'nullable|date_format:Y-m-d H:i',
         ]);
 
         if ($validator->fails()) {
@@ -35,11 +36,16 @@ class AnnouncementController extends Controller
             $attachmentPath = $attachment->storeAs('attachments', $attachmentName, 'public');
         }
 
+        // Menentukan status berdasarkan keberadaan scheduled_at
+        $status = $request->scheduled_at ? 'scheduled' : 'published';
+
         $announcement = Announcement::create([
             'content' => $request->content,
             'class_id' => $class_id,
             'teacher_id' => $user->id,
             'attachment_path' => $attachmentPath,
+            'scheduled_at' => $request->scheduled_at,
+            'status' => $status, 
         ]);
 
         return response()->json($announcement, 201);
