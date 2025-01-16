@@ -109,6 +109,21 @@ class AssignmentController extends Controller
         return response()->json($assignments);
     }
 
+    
+    /**
+     * Display the specified resource.
+     */
+    public function getById($id)
+    {
+        $user = auth()->user();
+        $assignment = Assignment::find($id);
+        if (!$assignment) {
+            return response()->json(['message' => 'Tugas tidak ditemukan'], 404);
+        }
+
+        return response()->json($assignment);
+    }
+
     /**
      * Update the specified resource in storage.
      */

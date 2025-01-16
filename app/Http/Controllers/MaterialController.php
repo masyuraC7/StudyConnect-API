@@ -38,7 +38,7 @@ class MaterialController extends Controller
             'teacher_id' => $user->id,
             'status' => $request->scheduled_at ? 'scheduled' : 'published',
         ]);
-        
+
         $attachment = $request->file('attachment');
         if ($attachment) {
             $attachmentName = time() . '_' . $attachment->getClientOriginalName();
@@ -62,6 +62,20 @@ class MaterialController extends Controller
         $materials = Material::where('class_id', $class_id)->get();
         return response()->json($materials);
     }
+
+    /**
+     * Get the specified resource by id.
+     */
+    public function getById($id)
+    {
+        $material = Material::find($id);
+        if (!$material) {
+            return response()->json(['message' => 'Materi tidak ditemukan'], 404);
+        }
+
+        return response()->json($material);
+    }
+
 
     /**
      * Update the specified resource in storage.

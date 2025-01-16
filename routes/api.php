@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     // Rute untuk materi
     Route::post('/material/{class_id}', [MaterialController::class, 'store']);
     Route::get('/material/{class_id}', [MaterialController::class, 'show']);
+    Route::get('/material/{id}/get', [MaterialController::class, 'getById']);
     Route::put('/material/{id}', [MaterialController::class, 'update']);
     Route::delete('/material/{id}', [MaterialController::class, 'destroy']);
 
@@ -56,11 +57,13 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     // Rute untuk tugas
     Route::post('/assignment/{class_id}', [AssignmentController::class, 'store']);
     Route::get('/assignment/{class_id}', [AssignmentController::class, 'show']);
+    Route::get('/assignment/{id}/get', [AssignmentController::class, 'getById']);
     Route::put('/assignment/{id}', [AssignmentController::class, 'update']);
     Route::delete('/assignment/{id}', [AssignmentController::class, 'destroy']);
 
     // Rute untuk pengumpulan
     Route::post('/assignment/{assignment_id}/submission', [SubmissionController::class, 'store']);
     Route::get('/assignment/{assignment_id}/submission', [SubmissionController::class, 'show']);
+    Route::get('/submission/{id}/get', [SubmissionController::class, 'getById']);
     Route::put('/submission/{submission_id}', [SubmissionController::class, 'score']);
 });

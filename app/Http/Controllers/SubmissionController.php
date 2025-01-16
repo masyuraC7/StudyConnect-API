@@ -86,6 +86,21 @@ class SubmissionController extends Controller
         return response()->json($submissions);
     }
 
+    
+    /**
+     * Retrieve a submission by its ID.
+     */
+    public function getById($submission_id)
+    {
+        $submission = Submission::find($submission_id);
+
+        if (!$submission) {
+            return response()->json(['message' => 'Submission tidak ditemukan'], 404);
+        }
+
+        return response()->json($submission);
+    }
+
     /**
      * Update the submission's score and status.
      */
