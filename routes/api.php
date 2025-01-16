@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     // Rute untuk pengumuman
     Route::post('/announcement/{class_id}', [AnnouncementController::class, 'store']);
     Route::get('/announcement/{class_id}', [AnnouncementController::class, 'show']);
+    Route::get('/announcement/{id}/get', [AnnouncementController::class, 'getById']);
     Route::put('/announcement/{id}', [AnnouncementController::class, 'update']);
     Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy']);
 

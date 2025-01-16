@@ -62,6 +62,18 @@ class AnnouncementController extends Controller
         }
         return response()->json($announcement);
     }
+    
+    /**
+     * Display the specified resource.
+     */
+    public function getById($id)
+    {
+        $announcement = Announcement::find($id);
+        if (!$announcement) {
+            return response()->json(['message' => 'Pengumuman tidak ditemukan'], 404);
+        }
+        return response()->json($announcement);
+    }
 
     /**
      * Update the specified resource in storage.
