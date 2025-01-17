@@ -59,7 +59,7 @@ class MaterialController extends Controller
      */
     public function show($class_id)
     {
-        $materials = Material::where('class_id', $class_id)->get();
+        $materials = Material::where('class_id', $class_id)->latest()->get();
         return response()->json($materials);
     }
 

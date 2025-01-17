@@ -104,7 +104,7 @@ class AssignmentController extends Controller
                 ->where('status', 'published')
                 ->get();
         } else {
-            $assignments = Assignment::where('class_id', $class_id)->get();
+            $assignments = Assignment::where('class_id', $class_id)->latest()->get();
         }
         return response()->json($assignments);
     }

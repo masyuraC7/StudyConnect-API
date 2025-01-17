@@ -48,10 +48,12 @@ class ClassController extends Controller
         if ($user->role == 'teacher') {
             $classes = Classes::where('teacher_id', $user->id)
                 ->where('status', 'active')
+                ->latest()
                 ->get();
         } elseif ($user->role == 'student') {
             $classes = $user->classes()
                 ->where('status', 'active')
+                ->latest()
                 ->get();
         } else {
             return response()->json(['message' => 'Invalid user role'], 403);
