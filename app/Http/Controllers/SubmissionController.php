@@ -81,7 +81,7 @@ class SubmissionController extends Controller
      */
     public function show($assignment_id)
     {
-        $submissions = Submission::where('assignment_id', $assignment_id)->get();
+        $submissions = Submission::where('assignment_id', $assignment_id)->latest()->get();
 
         return response()->json($submissions);
     }

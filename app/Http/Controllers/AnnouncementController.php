@@ -56,7 +56,7 @@ class AnnouncementController extends Controller
      */
     public function show($class_id)
     {
-        $announcement = Announcement::where('class_id', $class_id)->get();
+        $announcement = Announcement::where('class_id', $class_id)->latest()->get();
         if (!$announcement) {
             return response()->json(['message' => 'Pengumuman tidak ditemukan'], 404);
         }
