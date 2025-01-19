@@ -23,7 +23,7 @@ class MaterialController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:100',
             'description' => 'nullable|string',
-            'attachment' => 'required|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
+            'attachment' => 'nullable|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
             'scheduled_at' => 'nullable|date_format:Y-m-d H:i',
         ]);
 
