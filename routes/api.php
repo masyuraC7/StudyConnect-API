@@ -65,5 +65,5 @@ Route::middleware('auth:sanctum')->group(callback: function () {
     Route::post('/assignment/{assignment_id}/submission', [SubmissionController::class, 'store']);
     Route::get('/assignment/{assignment_id}/submission', [SubmissionController::class, 'show']);
     Route::get('/submission/{id}/get', [SubmissionController::class, 'getById']);
-    Route::put('/submission/{submission_id}', [SubmissionController::class, 'score']);
+    Route::put('/submission/{id}', [SubmissionController::class, 'score']);
 });
