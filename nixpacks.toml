@@ -1,5 +1,7 @@
 [phases.setup]
 cmds = [
-  'echo "upload_max_filesize=10M;" >> /nix/store/7qvqslx4fpz7qwgbd9091lgcs708b4gg-php-with-extensions-8.1.29/lib/php.ini',
-  'echo "post_max_size=10M;" >> /nix/store/7qvqslx4fpz7qwgbd9091lgcs708b4gg-php-with-extensions-8.1.29/lib/php.ini'
+  'cp /nix/store/7qvqslx4fpz7qwgbd9091lgcs708b4gg-php-with-extensions-8.1.29/lib/php.ini /tmp/php.ini',
+  'sed -i "s/^upload_max_filesize = .*/upload_max_filesize = 10M/" /tmp/php.ini',
+  'sed -i "s/^post_max_size = .*/post_max_size = 10M/" /tmp/php.ini',
+  'cp /tmp/php.ini /nix/store/7qvqslx4fpz7qwgbd9091lgcs708b4gg-php-with-extensions-8.1.29/lib/php.ini'
 ]
