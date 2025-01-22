@@ -30,6 +30,7 @@ class AssignmentController extends Controller
             'scheduled_at' => 'nullable|date_format:Y-m-d H:i',
             'type' => 'required|in:essay,multiple_choice,file_upload',
             'options' => 'nullable|string',
+            'link_url' => 'nullable|url',
         ]);
 
         // Tambahkan validasi kondisional
@@ -69,6 +70,7 @@ class AssignmentController extends Controller
             'teacher_id' => $user->id,
             'status' => $request->scheduled_at ? 'scheduled' : 'published',
             'type' => $request->type,
+            'link_url' => $request->link_url,
         ]);
 
         if ($request->type === 'multiple_choice') {
@@ -147,7 +149,8 @@ class AssignmentController extends Controller
             'due_date' => 'nullable|date_format:Y-m-d H:i',
             'max_score' => 'required|integer|min:0|max:100',
             'type' => 'required|in:essay,multiple_choice,file_upload',
-            'options' => 'nullable|string'
+            'options' => 'nullable|string',
+            'link_url' => 'nullable|url'
         ]);
 
         // Tambahkan validasi kondisional
@@ -192,6 +195,7 @@ class AssignmentController extends Controller
         $assignment->due_date = $request->due_date;
         $assignment->max_score = $request->max_score;
         $assignment->type = $request->type;
+        $assignment->link_url = $request->link_url;
         $assignment->save();
 
         return response()->json($assignment);

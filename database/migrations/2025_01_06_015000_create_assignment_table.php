@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->dateTime('due_date')->nullable();
             $table->string('attachment_path')->nullable();
+            $table->string('link_url')->nullable();
             $table->integer('max_score', false, true)->length(3);
             $table->enum('type', ['essay', 'multiple_choice', 'file_upload']);
             $table->json('options')->nullable();

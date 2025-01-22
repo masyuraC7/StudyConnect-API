@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->dateTime('submitted_at');
             $table->string('attachment_path')->nullable();
+            $table->string('link_url')->nullable();
             $table->integer('score', false, true)->length(3)->nullable();
             $table->enum('status', ['submitted', 'graded'])->default('submitted');
             $table->text('answer')->nullable();
