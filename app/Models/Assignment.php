@@ -17,6 +17,7 @@ class Assignment extends Model
         'class_id',
         'due_date',
         'attachment_path',
+        'link_url',
         'max_score',
         'type',
         'options',

@@ -16,7 +16,8 @@ class Material extends Model
         'teacher_id',
         'title',
         'description',
-        'file_path',
+        'attachment_path',
+        'link_url',
         'scheduled_at',
         'status',
     ];
