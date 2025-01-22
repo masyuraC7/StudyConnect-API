@@ -69,6 +69,7 @@ class SubmissionController extends Controller
             'student_id' => $user->id,
             'attachment_path' => $attachmentPath,
             'answer' => $request->answer,
+            'link_url' => $request->link_url,
             'submitted_at' => now(),
             'status' => 'submitted',
         ]);

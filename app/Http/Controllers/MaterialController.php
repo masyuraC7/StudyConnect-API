@@ -25,6 +25,7 @@ class MaterialController extends Controller
             'description' => 'nullable|string',
             'attachment' => 'nullable|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
             'scheduled_at' => 'nullable|date_format:Y-m-d H:i',
+            'link_url' => 'nullable|url',
         ]);
 
         if ($validator->fails()) {
@@ -37,6 +38,7 @@ class MaterialController extends Controller
             'class_id' => $class_id,
             'teacher_id' => $user->id,
             'status' => $request->scheduled_at ? 'scheduled' : 'published',
+            'link_url' => $request->link_url,
         ]);
 
         $attachment = $request->file('attachment');
@@ -96,6 +98,7 @@ class MaterialController extends Controller
             'title' => 'required|string|max:100',
             'description' => 'nullable|string',
             'attachment' => 'nullable|file|mimes:jpeg,png,jpg,pdf,docx|max:8192',
+            'link_url' => 'nullable|url',
         ]);
 
         if ($validator->fails()) {
@@ -117,6 +120,7 @@ class MaterialController extends Controller
 
         $material->title = $request->title;
         $material->description = $request->description;
+        $material->link_url = $request->link_url;
         $material->save();
 
         return response()->json($material);

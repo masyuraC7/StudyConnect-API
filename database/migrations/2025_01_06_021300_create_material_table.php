@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('description')->nullable();
             $table->string('attachment_path')->nullable();
+            $table->string('link_url')->nullable();
             $table->dateTime('scheduled_at')->nullable();
             $table->enum('status', ['scheduled', 'published'])->default('published');
             $table->timestamps();
