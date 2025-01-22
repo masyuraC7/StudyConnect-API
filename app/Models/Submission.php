@@ -16,6 +16,7 @@ class Submission extends Model
         'student_id',
         'submitted_at',
         'attachment_path',
+        'link_url',
         'grade',
         'status',
         'answer',
