@@ -35,10 +35,6 @@ class AssignmentController extends Controller
 
         // Tambahkan validasi kondisional
         $validator->after(function ($validator) use ($request) {
-            // Jika type adalah 'file_upload', attachment wajib diisi
-            if ($request->type === 'file_upload' && !$request->hasFile('attachment')) {
-                $validator->errors()->add('attachment', 'Attachment diperlukan untuk tipe file_upload.');
-            }
 
             // Jika type adalah 'multiple_choice', options wajib diisi
             if ($request->type === 'multiple_choice' && (!$request->options || count(explode(',', $request->options)) < 2 || count(explode(',', $request->options)) > 4)) {
